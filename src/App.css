@@ -1,0 +1,30 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, Arial, sans-serif; background: #f4f6f8; color: #222; }
+
+.app { min-height: 100vh; display: flex; flex-direction: column; }
+.app-header { background: #1b5e20; color: #fff; padding: 1rem 1.5rem; }
+.app-header h1 { margin: 0; font-size: 1.5rem; }
+.app-header p { margin: 0.25rem 0 0; opacity: 0.85; }
+
+.app-main { flex: 1; padding: 1.5rem; padding-bottom: 5rem; max-width: 900px; width: 100%; margin: 0 auto; }
+
+.tabla { width: 100%; border-collapse: collapse; background: #fff; }
+.tabla th, .tabla td { padding: 0.6rem; border-bottom: 1px solid #ddd; text-align: left; }
+.tabla th { background: #e8f5e9; }
+.tabla button { width: 2rem; margin-right: 0.25rem; cursor: pointer; }
+
+.badge { padding: 0.15rem 0.5rem; border-radius: 999px; font-size: 0.85rem; color: #fff; }
+.badge.ok { background: #2e7d32; }
+.badge.bajo { background: #ef6c00; }
+.badge.agotado { background: #c62828; }
+
+.tarjetas { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.tarjeta { background: #fff; padding: 1rem; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+.tarjeta h3 { margin-top: 0; }
+
+.faq { background: #fff; margin-bottom: 0.5rem; padding: 0.75rem 1rem; border-radius: 8px; }
+.faq summary { cursor: pointer; font-weight: 600; }
+
+.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; display: flex; background: #1b5e20; }
+.bottom-nav a { flex: 1; text-align: center; padding: 1rem 0.5rem; color: #c8e6c9; text-decoration: none; }
+.bottom-nav a.active { background: #2e7d32; color: #fff; font-weight: 700; }
