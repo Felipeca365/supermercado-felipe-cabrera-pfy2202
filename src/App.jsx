@@ -5,6 +5,8 @@ import Faq from './pages/Faq.jsx'
 import NotFound from './pages/NotFound.jsx'
 import BottomNav from './components/BottomNav.jsx'
 import AgregarArticulo from './pages/AgregarArticulo.jsx'
+import ListaArticulos from './pages/ListaArticulos.jsx'
+import TopNav from './components/TopNav.jsx'
 
 function App() {
   return (
@@ -14,12 +16,15 @@ function App() {
         <p>Sistema de gestión de inventario</p>
       </header>
 
+      <TopNav />
+      
       <main className="app-main">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/tiendas" element={<Tiendas />} />
           <Route path="/preguntas-frecuentes" element={<Faq />} />
           <Route path="/agregar-articulo" element={<AgregarArticulo />} />
+          <Route path="/articulos" element={<ListaArticulos />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
