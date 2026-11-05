@@ -3,22 +3,22 @@ import Home from './pages/Home.jsx'
 import Tiendas from './pages/Tiendas.jsx'
 import Faq from './pages/Faq.jsx'
 import NotFound from './pages/NotFound.jsx'
-import BottomNav from './components/BottomNav.jsx'
 import AgregarArticulo from './pages/AgregarArticulo.jsx'
 import ListaArticulos from './pages/ListaArticulos.jsx'
+import BottomNav from './components/BottomNav.jsx'
 import TopNav from './components/TopNav.jsx'
 
 function App() {
   return (
-    <div className="app">
-      <header className="app-header">
-        <h1>Supermercado Don Felipe</h1>
-        <p>Sistema de gestión de inventario</p>
+    <div className="flex min-h-screen flex-col">
+      <header className="bg-green-900 px-6 py-4 text-white">
+        <h1 className="text-2xl font-bold">Supermercado Don Felipe</h1>
+        <p className="mt-1 text-green-100">Sistema de gestión de inventario</p>
       </header>
 
       <TopNav />
-      
-      <main className="app-main">
+
+      <main className="mx-auto w-full max-w-4xl flex-1 p-6 pb-24">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/tiendas" element={<Tiendas />} />
