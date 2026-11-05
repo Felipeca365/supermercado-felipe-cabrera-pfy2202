@@ -4,6 +4,7 @@ import Tiendas from './pages/Tiendas.jsx'
 import Faq from './pages/Faq.jsx'
 import NotFound from './pages/NotFound.jsx'
 import BottomNav from './components/BottomNav.jsx'
+import AgregarArticulo from './pages/AgregarArticulo.jsx'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/tiendas" element={<Tiendas />} />
           <Route path="/preguntas-frecuentes" element={<Faq />} />
+          <Route path="/agregar-articulo" element={<AgregarArticulo />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
