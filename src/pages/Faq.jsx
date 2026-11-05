@@ -8,11 +8,12 @@ const preguntas = [
 function Faq() {
   return (
     <section>
-      <h2>Preguntas frecuentes</h2>
+      <h2 className="mb-4 text-2xl font-bold text-green-900">Preguntas frecuentes</h2>
+
       {preguntas.map((item) => (
-        <details className="faq" key={item.p}>
-          <summary>{item.p}</summary>
-          <p>{item.r}</p>
+        <details key={item.p} className="mb-2 rounded-lg bg-white px-4 py-3 shadow">
+          <summary className="cursor-pointer font-semibold">{item.p}</summary>
+          <p className="mt-2 text-gray-700">{item.r}</p>
         </details>
       ))}
     </section>
