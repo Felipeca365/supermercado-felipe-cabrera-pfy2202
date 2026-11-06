@@ -7,6 +7,8 @@ import AgregarArticulo from './pages/AgregarArticulo.jsx'
 import ListaArticulos from './pages/ListaArticulos.jsx'
 import BottomNav from './components/BottomNav.jsx'
 import TopNav from './components/TopNav.jsx'
+import DetalleArticulo from './pages/DetalleArticulo.jsx'
+import Carrito from './pages/Carrito.jsx'
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
           <Route path="/preguntas-frecuentes" element={<Faq />} />
           <Route path="/agregar-articulo" element={<AgregarArticulo />} />
           <Route path="/articulos" element={<ListaArticulos />} />
+          <Route path="/articulos/:id" element={<DetalleArticulo />} />
+          <Route path="/carrito" element={<Carrito />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
