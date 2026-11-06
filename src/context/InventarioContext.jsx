@@ -1,41 +1,97 @@
 import { createContext, useContext, useReducer } from 'react'
+import { articulosIniciales } from '../data/articulosIniciales.js'
 
-// Lista inicial: los mismos productos de la semana 1, ahora con marca y tipo
-const articulosIniciales = [
-  { id: 1, nombre: 'Arroz grado 1 (1 kg)', marca: 'Tucapel', tipo: 'Abarrotes' },
-  { id: 2, nombre: 'Aceite vegetal (1 L)', marca: 'Chef', tipo: 'Abarrotes' },
-  { id: 3, nombre: 'Leche entera (1 L)', marca: 'Colun', tipo: 'Lácteos' },
-  { id: 4, nombre: 'Yogurt natural (150 g)', marca: 'Soprole', tipo: 'Lácteos' },
-  { id: 5, nombre: 'Detergente líquido (3 L)', marca: 'Drive', tipo: 'Limpieza' },
-  { id: 6, nombre: 'Pan de molde', marca: 'Ideal', tipo: 'Panadería' },
-]
-
-// El reducer decide cómo cambia la lista según la accion recibida
-function inventarioReducer(articulos, accion) {
-    switch (accion.type) {
-        case 'AGREGAR_ARTICULO':
-            return [...articulos, { id: Date.now(), ...accion.payload }]
-        default:
-            return articulos    
-    }
+// Un solo estado con las dos partes que dependen entre sí
+const estadoInicial = {
+  articulos: articulosIniciales, // inventario completo (fuente de verdad)
+  carrito: [],                   // solo { id, cantidad }
 }
 
-//El "canal" que reparte la lista a todas las paginas
+// Suma o resta stock a UN artículo, sin tocar los demás ni dejarlo bajo 0
+function cambiarStock(articulos, id, delta) {
+  return articulos.map((a) =>
+    a.id === id ? { ...a, stock: Math.max(0, a.stock + delta) } : a
+  )
+}
+
+function inventarioReducer(estado, accion) {
+  switch (accion.type) {
+    case 'AGREGAR_ARTICULO': {
+      const nuevoId = Math.max(0, ...estado.articulos.map((a) => a.id)) + 1
+      const nuevo = { minimo: 10, ...accion.payload, id: nuevoId }
+      return { ...estado, articulos: [...estado.articulos, nuevo] }
+    }
+
+    case 'AJUSTAR_STOCK':
+      return {
+        ...estado,
+        articulos: cambiarStock(estado.articulos, accion.id, accion.delta),
+      }
+
+    case 'AGREGAR_AL_CARRITO': {
+      const articulo = estado.articulos.find((a) => a.id === accion.id)
+      if (!articulo || articulo.stock < 1) return estado // sin stock: no hace nada
+
+      const yaEnCarrito = estado.carrito.some((i) => i.id === accion.id)
+      const carrito = yaEnCarrito
+        ? estado.carrito.map((i) =>
+            i.id === accion.id ? { ...i, cantidad: i.cantidad + 1 } : i
+          )
+        : [...estado.carrito, { id: accion.id, cantidad: 1 }]
+
+      return {
+        ...estado,
+        articulos: cambiarStock(estado.articulos, accion.id, -1),
+        carrito,
+      }
+    }
+
+    case 'DISMINUIR_CANTIDAD': {
+      const item = estado.carrito.find((i) => i.id === accion.id)
+      if (!item) return estado
+
+      const carrito =
+        item.cantidad > 1
+          ? estado.carrito.map((i) =>
+              i.id === accion.id ? { ...i, cantidad: i.cantidad - 1 } : i
+            )
+          : estado.carrito.filter((i) => i.id !== accion.id)
+
+      return {
+        ...estado,
+        articulos: cambiarStock(estado.articulos, accion.id, 1),
+        carrito,
+      }
+    }
+
+    case 'QUITAR_DEL_CARRITO': {
+      const item = estado.carrito.find((i) => i.id === accion.id)
+      if (!item) return estado
+
+      return {
+        ...estado,
+        articulos: cambiarStock(estado.articulos, accion.id, item.cantidad),
+        carrito: estado.carrito.filter((i) => i.id !== accion.id),
+      }
+    }
+
+    default:
+      return estado
+  }
+}
+
 const InventarioContext = createContext(null)
 
-// Componente que envuelve la app y entrega el estado global
 export function InventarioProvider({ children }) {
-    const [articulos, dispatch] = useReducer(inventarioReducer, articulosIniciales)
+  const [estado, dispatch] = useReducer(inventarioReducer, estadoInicial)
 
-    return (
-        <InventarioContext.Provider value={{ articulos, dispatch}}>
-            {children}
-        </InventarioContext.Provider>
-    )
-
+  return (
+    <InventarioContext.Provider value={{ ...estado, dispatch }}>
+      {children}
+    </InventarioContext.Provider>
+  )
 }
 
-// Hook para que cualquier página lea y modifique el estado
 export function useInventario() {
-    return useContext(InventarioContext)
+  return useContext(InventarioContext)
 }

@@ -1,15 +1,6 @@
 import { useState } from 'react'
 import { useInventario } from '../context/InventarioContext.jsx'
-
-const tiposProducto = [
-  'Abarrotes',
-  'Lácteos',
-  'Limpieza',
-  'Panadería',
-  'Bebidas',
-  'Carnes',
-  'Frutas y verduras',
-]
+import { CATEGORIAS } from '../data/categorias.js'
 
 function AgregarArticulo() {
   const { articulos, dispatch } = useInventario()
@@ -17,27 +8,39 @@ function AgregarArticulo() {
   // Borrador del formulario (estado local)
   const [nombre, setNombre] = useState('')
   const [marca, setMarca] = useState('')
-  const [tipo, setTipo] = useState('')
+  const [categoria, setCategoria] = useState('')
+  const [stock, setStock] = useState('')
   const [mensaje, setMensaje] = useState(null)
 
   const manejarEnvio = (evento) => {
-    evento.preventDefault() // evita que el formulario recargue la página
+    evento.preventDefault()
 
-    if (!nombre.trim() || !marca.trim() || !tipo) {
+    if (!nombre.trim() || !marca.trim() || !categoria || stock === '') {
       setMensaje({ ok: false, texto: 'Completa todos los campos.' })
       return
     }
 
-    // Se envía la acción al estado global
+    const cantidad = Number(stock)
+    if (!Number.isInteger(cantidad) || cantidad < 0) {
+      setMensaje({ ok: false, texto: 'El stock debe ser un número entero, 0 o mayor.' })
+      return
+    }
+
     dispatch({
       type: 'AGREGAR_ARTICULO',
-      payload: { nombre: nombre.trim(), marca: marca.trim(), tipo },
+      payload: {
+        nombre: nombre.trim(),
+        marca: marca.trim(),
+        categoria,
+        stock: cantidad,
+      },
     })
 
     setMensaje({ ok: true, texto: `Artículo "${nombre.trim()}" agregado.` })
     setNombre('')
     setMarca('')
-    setTipo('')
+    setCategoria('')
+    setStock('')
   }
 
   return (
@@ -47,10 +50,7 @@ function AgregarArticulo() {
         Ingresa un nuevo producto al inventario del supermercado.
       </p>
 
-      <form
-        onSubmit={manejarEnvio}
-        className="space-y-4 rounded-lg bg-white p-5 shadow"
-      >
+      <form onSubmit={manejarEnvio} className="space-y-4 rounded-lg bg-white p-5 shadow">
         <div>
           <label htmlFor="nombre" className="mb-1 block font-semibold">
             Nombre del producto
@@ -80,22 +80,38 @@ function AgregarArticulo() {
         </div>
 
         <div>
-          <label htmlFor="tipo" className="mb-1 block font-semibold">
-            Tipo de producto
+          <label htmlFor="categoria" className="mb-1 block font-semibold">
+            Categoría
           </label>
           <select
-            id="tipo"
-            value={tipo}
-            onChange={(e) => setTipo(e.target.value)}
+            id="categoria"
+            value={categoria}
+            onChange={(e) => setCategoria(e.target.value)}
             className="w-full rounded border border-gray-300 bg-white p-2 focus:border-green-700 focus:outline-none"
           >
-            <option value="">Selecciona un tipo</option>
-            {tiposProducto.map((t) => (
-              <option key={t} value={t}>
-                {t}
+            <option value="">Selecciona una categoría</option>
+            {CATEGORIAS.map((c) => (
+              <option key={c} value={c}>
+                {c}
               </option>
             ))}
           </select>
+        </div>
+
+        <div>
+          <label htmlFor="stock" className="mb-1 block font-semibold">
+            Stock inicial (unidades)
+          </label>
+          <input
+            id="stock"
+            type="number"
+            min="0"
+            step="1"
+            value={stock}
+            onChange={(e) => setStock(e.target.value)}
+            placeholder="Ej: 50"
+            className="w-full rounded border border-gray-300 p-2 focus:border-green-700 focus:outline-none"
+          />
         </div>
 
         <button
