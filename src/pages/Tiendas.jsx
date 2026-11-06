@@ -7,14 +7,15 @@ const tiendas = [
 function Tiendas() {
   return (
     <section>
-      <h2>Nuestras tiendas</h2>
-      <p>Visítanos en cualquiera de nuestras sucursales.</p>
-      <div className="tarjetas">
+      <h2 className="mb-1 text-2xl font-bold text-green-900">Nuestras tiendas</h2>
+      <p className="mb-4 text-gray-600">Visítanos en cualquiera de nuestras sucursales.</p>
+
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {tiendas.map((t) => (
-          <article className="tarjeta" key={t.nombre}>
-            <h3>{t.nombre}</h3>
-            <p>📍 {t.direccion}</p>
-            <p>🕒 {t.horario}</p>
+          <article key={t.nombre} className="rounded-lg bg-white p-4 shadow">
+            <h3 className="mb-2 text-lg font-bold text-green-900">{t.nombre}</h3>
+            <p className="text-gray-700">📍 {t.direccion}</p>
+            <p className="text-gray-700">🕒 {t.horario}</p>
           </article>
         ))}
       </div>
