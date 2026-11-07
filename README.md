@@ -1,84 +1,96 @@
-# Supermercado Don Felipe: Gestión de inventario
+# Supermercado Don Felipe — Sistema de gestión de inventario
 
-Evaluación Formativa 1 · Desarrollo Frontend II (PFY2202) · Duoc UC
-**Autor:** Felipe Cabrera
+Aplicación web de inventario para un supermercado, desarrollada en React como actividad sumativa de la asignatura **Desarrollo Frontend II (PFY2202)**, Duoc UC.
 
-Sitio web de gestión de inventario para un supermercado, desarrollado con **React**, **React Router** y **Vite**. Es una SPA (Single Page Application): la navegación entre pantallas no recarga la página.
+- **Autor:** Felipe Cabrera
+- **Repositorio:** https://github.com/Felipeca365/supermercado-felipe-cabrera-pfy2202
+- **Sitio publicado:** https://felipeca365.github.io/supermercado-felipe-cabrera-pfy2202/
+
+## Funcionalidades
+
+- **Agregar artículos** con validación de campos (nombre, marca, categoría y stock inicial).
+- **Lista de artículos** con filtro por categoría. El filtro no modifica los datos originales: se calcula en cada render.
+- **Detalle de artículo** al hacer clic en su nombre, con botón para agregarlo al carrito.
+- **Carrito de compras** con aumento y disminución de cantidades, y opción de quitar artículos.
+- **Inventario sincronizado:** al agregar al carrito el stock disminuye, y al quitar o disminuir vuelve a aumentar. Inicio, Lista, Detalle y Carrito muestran siempre los mismos datos.
+- **Diseño responsive** con Tailwind CSS, revisado desde 375 px (celular) hasta escritorio.
 
 ## Tecnologías
 
-- HTML, CSS y JavaScript
-- React 19
-- React Router DOM
-- Vite (servidor de desarrollo y compilación)
+| Tecnología | Uso |
+|---|---|
+| React 19 + Vite | Interfaz y herramienta de desarrollo |
+| React Router DOM | Navegación entre pantallas y rutas dinámicas |
+| Context API + `useReducer` | Estado global único (inventario y carrito) |
+| Tailwind CSS v4 | Estilos y diseño responsive |
+| GitHub Pages | Publicación del sitio |
 
-## Cómo ejecutar el proyecto
+## Rutas
 
-Requisito: tener Node.js instalado.
+| Ruta | Pantalla |
+|---|---|
+| `/` | Inicio: inventario actual con ajuste de stock |
+| `/agregar-articulo` | Formulario para agregar artículos |
+| `/articulos` | Lista con filtro por categoría (`?categoria=Lácteos`) |
+| `/articulos/:id` | Detalle del artículo |
+| `/carrito` | Carrito de compras |
+| `/tiendas` | Nuestras tiendas |
+| `/preguntas-frecuentes` | Preguntas frecuentes |
+| `*` | Página 404 |
+
+## Estructura del proyecto
+
+```
+src/
+├── components/   Piezas reutilizables: BadgeStock, Boton, FiltroCategoria,
+│                 Encabezado, TopNav, BottomNav, Cargando
+├── context/      InventarioContext: estado global y reducer
+├── data/         Datos iniciales y lista de categorías
+├── layouts/      MainLayout: marco común de todas las pantallas
+├── pages/        Una pantalla por archivo
+├── routes/       AppRoutes: definición de rutas con carga diferida
+├── App.jsx
+├── App.css
+└── main.jsx
+```
+
+## Decisiones técnicas
+
+1. **Un solo estado global.** El inventario y el carrito viven en un mismo `useReducer`, de modo que cada acción modifica ambos en una sola operación y nunca quedan desincronizados. El carrito guarda solo `{ id, cantidad }`; el resto de los datos se toma del inventario.
+2. **Filtro derivado.** La categoría activa se guarda en la URL con `useSearchParams` y la lista filtrada se calcula en cada render, por lo que los datos originales no se pierden.
+3. **Componentes reutilizables.** `BadgeStock`, `Boton` y `FiltroCategoria` se usan en varias pantallas.
+4. **Carga diferida.** Cada página se carga con `React.lazy` y solo se descarga al entrar a su ruta. El build genera un archivo por página.
+5. **Responsive.** En celular se ocultan columnas secundarias de las tablas (Categoría, Marca, N°) y se mantienen las acciones principales visibles.
+
+## Cómo ejecutarlo
+
+Requiere Node.js 18 o superior.
 
 ```bash
+git clone https://github.com/Felipeca365/supermercado-felipe-cabrera-pfy2202.git
+cd supermercado-felipe-cabrera-pfy2202
 npm install
 npm run dev
 ```
 
-Luego abrir `http://localhost:5173`.
+La aplicación queda disponible en `http://localhost:5173`.
 
-## Rutas del sitio
+Para generar la versión de producción:
 
-| Ruta | Componente | Descripción |
+```bash
+npm run build
+```
+
+## Cumplimiento de la pauta
+
+| Criterio | Cómo se cumple | Evidencia |
 |---|---|---|
-| `/` | `Home` | Inventario con control de stock (botones + y −) |
-| `/tiendas` | `Tiendas` | Sucursales, direcciones y horarios |
-| `/preguntas-frecuentes` | `Faq` | Preguntas frecuentes desplegables |
-| `*` | `NotFound` | Mensaje para rutas inexistentes |
+| Listado de artículos | `ListaArticulos.jsx` y `AgregarArticulo.jsx` | `01`, `14` a `17` |
+| Filtro por categoría | Filtro derivado, sin perder datos originales | `02`, `18` |
+| Detalle del artículo | Ruta `/articulos/:id` con botón de carrito | `03` a `06` |
+| Modificación del inventario | Carrito sincronizado con el stock | `07` a `13`, `18b`, `18c`, `19` a `21` |
+| Framework CSS responsive | Tailwind CSS, revisado en 375 px | `25a` a `29` |
+| Modularidad y reutilización | Estructura por carpetas y carga diferida | `22a`, `22b`, `23`, `24` |
+| GitHub y documentación | Este README y sitio en GitHub Pages | Enlaces al inicio |
 
-## Estructura
-
-```
-src/
-├── main.jsx            # BrowserRouter envuelve la aplicación
-├── App.jsx             # Definición de rutas (Routes / Route)
-├── App.css             # Estilos
-├── components/
-│   └── BottomNav.jsx   # Menú inferior con NavLink
-└── pages/
-    ├── Home.jsx
-    ├── Tiendas.jsx
-    ├── Faq.jsx
-    └── NotFound.jsx
-```
-
-## Cumplimiento de la pauta de evaluación
-
-**Criterio 1: Configura la navegación usando React Router**
-- `BrowserRouter` en `main.jsx`.
-- `Routes` y `Route` en `App.jsx`, incluida una ruta `*` para páginas no encontradas.
-- `NavLink` en el menú inferior, que navega sin recargar la página y marca la sección activa.
-
-**Criterio 2: Componente frontend que responde a todos los requerimientos**
-- Sitio de gestión de inventario de supermercado.
-- Página principal (home) y menú inferior con acceso a 2 páginas adicionales (Nuestras tiendas y Preguntas frecuentes).
-- Repositorio en GitHub con el nombre `supermercado-felipe-cabrera-pfy2202`.
-
-## Evidencias
-
-**1. Instalación y ejecución (`npm install` y `npm run dev`)**
-![npm install y npm run dev](evidencias/01-npm-install-y-dev.png)
-
-**2. Página principal: inventario**
-![Home](evidencias/02-home-inventario.png)
-
-**3. Ruta `/tiendas`.** Tras recargar con F5, el navegador vuelve a pedir la aplicación completa (se ve el documento `tiendas` en la pestaña Network).
-![Tiendas](evidencias/03-ruta-tiendas-con-recarga-F5.png)
-
-**4. Ruta `/preguntas-frecuentes`.** Al navegar con el menú no se genera ninguna solicitud nueva (pestaña Network vacía), lo que demuestra el funcionamiento como SPA.
-![Preguntas frecuentes](evidencias/04-ruta-preguntas-frecuentes-sin-recarga.png)
-
-**5. Código de las rutas en `App.jsx`**
-![Código App.jsx](evidencias/05-codigo-rutas-App.png)
-
-**6. Ruta inexistente (página 404)**
-![404](evidencias/06-pagina-404.png)
-
-**7. Repositorio creado en GitHub**
-![Repositorio](evidencias/07-repositorio-github-creado.png)
+Las capturas están en la carpeta [`evidencias_semana_3`](./evidencias_semana_3). Las de la actividad anterior están en [`evidencias`](./evidencias).
