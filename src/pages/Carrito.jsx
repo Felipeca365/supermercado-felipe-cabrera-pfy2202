@@ -33,23 +33,28 @@ function Carrito() {
       </p>
 
       <div className="overflow-x-auto rounded-lg bg-white shadow">
-        <table className="w-full text-left">
+        <table className="w-full text-left text-sm sm:text-base">
           <thead className="bg-green-100 text-green-900">
             <tr>
-              <th className="p-3">Producto</th>
-              <th className="p-3">Marca</th>
-              <th className="p-3">Cantidad</th>
-              <th className="p-3">Disponible en inventario</th>
-              <th className="p-3">Quitar</th>
+              <th className="p-2 sm:p-3">Producto</th>
+              <th className="hidden p-2 sm:table-cell sm:p-3">Marca</th>
+              <th className="p-2 sm:p-3">Cantidad</th>
+              <th className="hidden p-2 sm:table-cell sm:p-3">Disponible en inventario</th>
+              <th className="p-2 sm:p-3">Quitar</th>
             </tr>
           </thead>
           <tbody>
             {items.map((item) => (
               <tr key={item.id} className="border-t border-gray-200">
-                <td className="p-3">{item.nombre}</td>
-                <td className="p-3">{item.marca}</td>
-                <td className="p-3">
-                  <div className="flex items-center gap-2">
+                <td className="p-2 sm:p-3">
+                  {item.nombre}
+                  <span className="block text-xs text-gray-500 sm:hidden">
+                    Disponible: {item.stock}
+                  </span>
+                </td>
+                <td className="hidden p-2 sm:table-cell sm:p-3">{item.marca}</td>
+                <td className="p-2 sm:p-3">
+                  <div className="flex items-center gap-1 sm:gap-2">
                     <Boton
                       variante="secundario"
                       tamano="chico"
@@ -70,8 +75,8 @@ function Carrito() {
                     </Boton>
                   </div>
                 </td>
-                <td className="p-3">{item.stock}</td>
-                <td className="p-3">
+                <td className="hidden p-2 sm:table-cell sm:p-3">{item.stock}</td>
+                <td className="p-2 sm:p-3">
                   <Boton
                     variante="peligro"
                     tamano="chico"
