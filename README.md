@@ -38,6 +38,10 @@ Aplicación web de inventario para un supermercado, desarrollada en React como a
 | `/preguntas-frecuentes` | Preguntas frecuentes |
 | `*` | Página 404 |
 
+> En el sitio publicado las rutas llevan `#` (por ejemplo `/#/articulos`), porque se
+> usa `HashRouter` para que la navegación funcione en GitHub Pages sin errores 404
+> al recargar la página.
+
 ## Estructura del proyecto
 
 ```
