@@ -1,0 +1,1 @@
+import{n as e}from"./index-B1gOshhp.js";var t=e();function n({stock:e,minimo:n}){let r=`Normal`,i=`bg-green-700`;return e===0?(r=`Sin stock`,i=`bg-red-700`):e<n&&(r=`Stock bajo`,i=`bg-orange-600`),(0,t.jsx)(`span`,{className:`whitespace-nowrap rounded-full px-3 py-1 text-sm text-white ${i}`,children:r})}export{n as t};
