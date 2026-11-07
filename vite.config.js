@@ -4,5 +4,6 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/supermercado-felipe-cabrera-pfy2202/',
   plugins: [react(), tailwindcss()],
 })
