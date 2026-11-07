@@ -12,7 +12,9 @@ function BadgeStock({ stock, minimo }) {
   }
 
   return (
-    <span className={`rounded-full px-2 py-0.5 text-sm text-white ${color}`}>
+    <span
+      className={`whitespace-nowrap rounded-full px-3 py-1 text-sm text-white ${color}`}
+    >
       {texto}
     </span>
   )

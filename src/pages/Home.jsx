@@ -14,26 +14,26 @@ function Home() {
       </p>
 
       <div className="overflow-x-auto rounded-lg bg-white shadow">
-        <table className="w-full text-left">
+        <table className="w-full text-left text-sm sm:text-base">
           <thead className="bg-green-100 text-green-900">
             <tr>
-              <th className="p-3">Producto</th>
-              <th className="p-3">Categoría</th>
-              <th className="p-3">Stock</th>
-              <th className="p-3">Estado</th>
-              <th className="p-3">Ajustar</th>
+              <th className="p-2 sm:p-3">Producto</th>
+              <th className="hidden p-2 sm:p-3 sm:table-cell">Categoría</th>
+              <th className="p-2 sm:p-3">Stock</th>
+              <th className="p-2 sm:p-3">Estado</th>
+              <th className="p-2 sm:p-3">Ajustar</th>
             </tr>
           </thead>
           <tbody>
             {articulos.map((a) => (
               <tr key={a.id} className="border-t border-gray-200">
-                <td className="p-3">{a.nombre}</td>
-                <td className="p-3">{a.categoria}</td>
-                <td className="p-3">{a.stock}</td>
-                <td className="p-3">
+                <td className="p-2 sm:p-3">{a.nombre}</td>
+                <td className="hidden p-2 sm:p-3 sm:table-cell">{a.categoria}</td>
+                <td className="p-2 sm:p-3">{a.stock}</td>
+                <td className="p-2 sm:p-3">
                   <BadgeStock stock={a.stock} minimo={a.minimo} />
                 </td>
-                <td className="p-3">
+                <td className="p-2 sm:p-3">
                   <div className="flex gap-1">
                     <Boton
                       variante="secundario"
