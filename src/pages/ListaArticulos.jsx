@@ -38,15 +38,15 @@ function ListaArticulos() {
       <FiltroCategoria valor={categoria} onChange={cambiarCategoria} />
 
       <div className="overflow-x-auto rounded-lg bg-white shadow">
-        <table className="w-full text-left">
+        <table className="w-full text-left text-sm sm:text-base">
           <thead className="bg-green-100 text-green-900">
             <tr>
-              <th className="p-3">N°</th>
-              <th className="p-3">Nombre</th>
-              <th className="p-3">Marca</th>
-              <th className="p-3">Categoría</th>
-              <th className="p-3">Stock</th>
-              <th className="p-3">Estado</th>
+              <th className="hidden p-2 sm:table-cell sm:p-3">N°</th>
+              <th className="p-2 sm:p-3">Nombre</th>
+              <th className="hidden p-2 sm:table-cell sm:p-3">Marca</th>
+              <th className="hidden p-2 sm:table-cell sm:p-3">Categoría</th>
+              <th className="p-2 sm:p-3">Stock</th>
+              <th className="p-2 sm:p-3">Estado</th>
             </tr>
           </thead>
           <tbody>
@@ -59,8 +59,8 @@ function ListaArticulos() {
             ) : (
               articulosFiltrados.map((articulo, indice) => (
                 <tr key={articulo.id} className="border-t border-gray-200">
-                  <td className="p-3">{indice + 1}</td>
-                  <td className="p-3">
+                  <td className="hidden p-2 sm:table-cell sm:p-3">{indice + 1}</td>
+                  <td className="p-2 sm:p-3">
                     <Link
                       to={`/articulos/${articulo.id}`}
                       state={{ busqueda: searchParams.toString() }}
@@ -69,10 +69,10 @@ function ListaArticulos() {
                       {articulo.nombre}
                     </Link>
                   </td>
-                  <td className="p-3">{articulo.marca}</td>
-                  <td className="p-3">{articulo.categoria}</td>
-                  <td className="p-3">{articulo.stock}</td>
-                  <td className="p-3">
+                  <td className="hidden p-2 sm:table-cell sm:p-3">{articulo.marca}</td>
+                  <td className="hidden p-2 sm:table-cell sm:p-3">{articulo.categoria}</td>
+                  <td className="p-2 sm:p-3">{articulo.stock}</td>
+                  <td className="p-2 sm:p-3">
                     <BadgeStock stock={articulo.stock} minimo={articulo.minimo} />
                   </td>
                 </tr>
